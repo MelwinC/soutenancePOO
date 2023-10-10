@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 // Classe de definition de l'IHM principale du compte
 public class GUIModifierCommande implements FormulaireInt {
-    private Site site;  // Le site
-    private Commande commandeCourante;
+    private final Site site;  // Le site
+    private final Commande commandeCourante;
 
     // Constructeur
     public GUIModifierCommande(Site site, Commande commande) {
