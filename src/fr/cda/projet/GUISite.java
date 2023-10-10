@@ -1,6 +1,9 @@
 package fr.cda.projet;
 
 import fr.cda.ihm.*;
+import fr.cda.util.Log4j;
+
+import java.util.Arrays;
 
 // Classe de definition de l'IHM principale du compte
 public class GUISite implements FormulaireInt {
@@ -20,16 +23,28 @@ public class GUISite implements FormulaireInt {
         form.addLabel("Afficher tous les bons de commande");
         form.addButton("AFF_COMMANDES", "Toutes les commandes");
         form.addLabel("");
+        form.addLabel("Afficher les commandes non livrees");
         form.addButton("NON_LIVREES", "Commandes non livrees");
         form.addLabel("");
         form.addText("NUM_COMMANDE", "Numero de commande", true, "1");
+        form.addLabel("");
+        form.addLabel("Afficher le detail de la commande");
         form.addButton("AFF_COMMANDE", "Afficher");
         form.addLabel("");
+        form.addLabel("Modifier les references de la commande");
         form.addButton("MODIFIER", "Modifier");
         form.addLabel("");
+        form.addLabel("Livrer les commandes");
         form.addButton("LIVRER", "Livrer");
         form.addLabel("");
+        form.addLabel("Calcul des ventes des commandes livrees");
         form.addButton("CALCUL_VENTES", "Calculer ventes");
+        form.addLabel("");
+        form.addLabel("Sauvegarde des produits et des commandes");
+        form.addButton("SAUVEGARDER", "Sauvegarder");
+        form.addLabel("");
+        form.addLabel("Fermer l'application");
+        form.addButton("FERMER", "Fermer");
 
         form.setPosition(400, 0);
         form.addZoneText("RESULTATS", "Resultats",
@@ -65,6 +80,7 @@ public class GUISite implements FormulaireInt {
             } catch (NumberFormatException e) {
                 String res = "Veuillez entrer un numéro de commande.";
                 form.setValeurChamp("RESULTATS", res);
+                Log4j.logger.info(e);
             }
         }
 
@@ -81,7 +97,7 @@ public class GUISite implements FormulaireInt {
                 }
             } catch (NullPointerException | NumberFormatException e) {
                 form.setValeurChamp("RESULTATS", "Aucune commande n'a ete trouvee avec ce numero.");
-                e.printStackTrace();
+                Log4j.logger.info(e);
             }
         }
 
@@ -92,23 +108,33 @@ public class GUISite implements FormulaireInt {
 
         // Livraison de la commande
         if (nomSubmit.equals("LIVRER")) {
-//            Commande c = site.trouverCommande(Integer.parseInt(form.getValeurChamp("NUM_COMMANDE")));
             try {
                 String res = site.livrerToutesCommandes();
                 form.setValeurChamp("RESULTATS", res);
             } catch (NullPointerException | NumberFormatException e) {
                 form.setValeurChamp("RESULTATS", "Aucune commande n'a ete trouvee avec ce numero.");
-                e.printStackTrace();
-            } catch (ArrayIndexOutOfBoundsException e2) {
+                Log4j.logger.info(e);
+            } catch (ArrayIndexOutOfBoundsException e) {
                 form.setValeurChamp("RESULTATS", "La commande ne possede pas de references.");
+                Log4j.logger.info(e);
             }
         }
 
+        // Calcul des ventes des commandes livrees
         if (nomSubmit.equals("CALCUL_VENTES")) {
-            int numCommande = Integer.parseInt(form.getValeurChamp("NUM_COMMANDE"));
-            Commande c = site.trouverCommande(numCommande);
-            String res = site.calculVente(c);
-            form.setValeurChamp("RESULTATS", res);
+            form.setValeurChamp("RESULTATS", site.calculerVentes());
+        }
+
+        // Sauvegarde des produits du stock et des bons de commandes
+        if (nomSubmit.equals("SAUVEGARDER")) {
+            site.sauvegarder();
+            form.setValeurChamp("RESULTATS", "Les produits du stock et les bons de commandes ont bien ete sauvegardes.");
+        }
+
+        // Fermer l'application
+        if (nomSubmit.equals("FERMER")) {
+            site.sauvegarder();
+            form.fermer();
         }
 
     }

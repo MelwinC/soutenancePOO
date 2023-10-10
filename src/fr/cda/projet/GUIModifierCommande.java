@@ -1,9 +1,7 @@
 package fr.cda.projet;
 
 import fr.cda.ihm.*;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 // Classe de definition de l'IHM principale du compte
 public class GUIModifierCommande implements FormulaireInt {

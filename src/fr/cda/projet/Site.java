@@ -1,8 +1,6 @@
 package fr.cda.projet;
 
-import java.lang.reflect.Array;
 import java.util.*;
-
 import fr.cda.util.*;
 
 // Classe de definition du site de vente
@@ -20,7 +18,6 @@ public class Site {
 
         // initialisation des commandes avec de la data
         initialiserCommandes("data/Commandes.txt");
-        System.out.println(commandes);
 
         // initialisation des raisons des commandes non livrees
         initialiserRaisonsCommandes();
@@ -107,7 +104,6 @@ public class Site {
     // lis le fichier envoye en argument et ajoute les commandes du fichier
     private void initialiserCommandes(String nomFichier) {
         String[] lignes = Terminal.lireFichierTexte(nomFichier);
-        System.out.println(Arrays.toString(lignes));
         int numeroCourant;
         int numeroPrecedent = -1;
         ArrayList<String> references = new ArrayList<>();
@@ -157,22 +153,31 @@ public class Site {
         return res;
     }
 
-    public String calculVente(Commande commande) {
-        ArrayList<String> references = commande.getReferences();
+    public String calculerVentes() {
         double total = 0;
         StringBuffer res = new StringBuffer();
-        res.append("Commande : ").append(commande.getNumero()).append('\n');
-        for (int i = 0; i < references.size(); i++) {
-            String[] reference = references.get(i).split("=");
-            String nomReference = reference[0];
-            int quantite = Integer.parseInt(reference[1]);
-            Produit p = trouverProduit(nomReference);
-            double prix = p.getPrix();
-            res.append(p.getNom()).append("  ").append(quantite).append("  ").append(p.getPrix()).append(" €");
-            res.append('\n');
-            total += prix * quantite;
+        for (Commande commande : commandes) {
+            if (commande.isEtatLivraison()) {
+                ArrayList<String> references = commande.getReferences();
+                res.append("Commande : ").append(commande.getNumero()).append('\n').append('\n');
+                for (int i = 0; i < references.size(); i++) {
+                    String[] reference = references.get(i).split("=");
+                    String nomReference = reference[0];
+                    int quantite = Integer.parseInt(reference[1]);
+                    Produit p = trouverProduit(nomReference);
+                    double prix = p.getPrix();
+                    res.append(p.getNom()).append("  ").append(quantite).append(" x ").append(p.getPrix()).append(" €");
+                    res.append('\n');
+                    total += prix * quantite;
+                }
+                res.append("--------------------").append('\n');
+            }
         }
-        res.append("==================").append('\n').append("Somme : ").append(total).append(" €");
+        if (total == 0) {
+            res.append("Aucune commande n'a ete effectuee, le total des ventes vaut donc 0.0 €");
+        } else {
+            res.append('\n').append("Somme : ").append(total).append(" €");
+        }
         return res.toString();
     }
 
@@ -187,19 +192,19 @@ public class Site {
                 Produit p = trouverProduit(nomRef);
                 if (quantite - p.getQuantite() > 0) {
                     res = "La commande " + commande.getNumero() + " ne peut pas etre livree car il manque : " + '\n';
-                    raisonRefus.append(" - ").append(quantite).append(" produits de type : ").append(nomRef).append('\n');
+                    raisonRefus.append("    - ").append(quantite).append(" produits de type : ").append(nomRef).append('\n');
                 } else {
                     p.setQuantite(p.getQuantite() - quantite);
                 }
             }
             if (res.isEmpty()) {
                 res = "La commande " + commande.getNumero() + " a bien ete livree." + '\n';
+                res += ("------------------------------------------------------------" + '\n');
                 commande.setEtatLivraison(!commande.isEtatLivraison());
             } else {
                 res = res + raisonRefus;
+                res += ("------------------------------------------------------------" + '\n');
             }
-        } else {
-            res = "La commande a deja ete livree." +  '\n';
         }
         initialiserRaisonsCommandes();
         return res;
@@ -209,7 +214,29 @@ public class Site {
         StringBuilder res = new StringBuilder();
         for (Commande c : commandes) {
             res.append(livrer(c));
+
         }
         return res.toString();
+    }
+
+    public void sauvegarder() {
+        StringBuffer sbProduits = new StringBuffer();
+        StringBuffer sbCommandes = new StringBuffer();
+        for (Produit p : stock) {
+            sbProduits.append(p.getReference()).append(";");
+            sbProduits.append(p.getNom()).append(";");
+            sbProduits.append(p.getPrix()).append(";");
+            sbProduits.append(p.getQuantite()).append('\n');
+        }
+        for (Commande c : commandes) {
+            for (String ref : c.getReferences()) {
+                sbCommandes.append(c.getNumero()).append(";");
+                sbCommandes.append(c.getDate()).append(";");
+                sbCommandes.append(c.getClient()).append(";");
+                sbCommandes.append(ref).append('\n');
+            }
+        }
+        Terminal.ecrireFichier("data/Produits.txt", sbProduits);
+        Terminal.ecrireFichier("data/Commandes.txt", sbCommandes);
     }
 }
