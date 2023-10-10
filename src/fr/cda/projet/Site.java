@@ -77,7 +77,6 @@ public class Site {
             if (!c.isEtatLivraison()) {
                 res.append(c).append("\n");
                 res.append("----------------------" + '\n');
-                ;
                 trouve = true;
             }
         }
@@ -90,6 +89,7 @@ public class Site {
     // lis le fichier envoye en argument et ajoute au stock tous les produits
     private void initialiserStock(String nomFichier) {
         String[] lignes = Terminal.lireFichierTexte(nomFichier);
+        assert lignes != null;
         for (String ligne : lignes) {
             String[] champs = ligne.split(";", 4);
             String reference = champs[0];
@@ -108,8 +108,9 @@ public class Site {
         int numeroPrecedent = -1;
         ArrayList<String> references = new ArrayList<>();
         Commande c;
-        for (int i = 0; i < lignes.length; i++) {
-            String[] champs = lignes[i].split(";", 4);
+        assert lignes != null;
+        for (String ligne : lignes) {
+            String[] champs = ligne.split(";", 4);
             numeroCourant = Integer.parseInt(champs[0]);
             String date = champs[1];
             String nom = champs[2];
@@ -155,15 +156,15 @@ public class Site {
 
     public String calculerVentes() {
         double total = 0;
-        StringBuffer res = new StringBuffer();
+        StringBuilder res = new StringBuilder();
         for (Commande commande : commandes) {
             if (commande.isEtatLivraison()) {
                 ArrayList<String> references = commande.getReferences();
                 res.append("Commande : ").append(commande.getNumero()).append('\n').append('\n');
-                for (int i = 0; i < references.size(); i++) {
-                    String[] reference = references.get(i).split("=");
-                    String nomReference = reference[0];
-                    int quantite = Integer.parseInt(reference[1]);
+                for (String reference : references) {
+                    String[] tabReference = reference.split("=");
+                    String nomReference = tabReference[0];
+                    int quantite = Integer.parseInt(tabReference[1]);
                     Produit p = trouverProduit(nomReference);
                     double prix = p.getPrix();
                     res.append(p.getNom()).append("  ").append(quantite).append(" x ").append(p.getPrix()).append(" €");

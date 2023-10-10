@@ -3,11 +3,9 @@ package fr.cda.projet;
 import fr.cda.ihm.*;
 import fr.cda.util.Log4j;
 
-import java.util.Arrays;
-
 // Classe de definition de l'IHM principale du compte
 public class GUISite implements FormulaireInt {
-    private Site site;  // Le site
+    private final Site site;  // Le site
 
     // Constructeur
     public GUISite(Site site) {
