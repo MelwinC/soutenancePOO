@@ -1,15 +1,21 @@
 package fr.cda.projet;
 
-// Classe de definition d'un produit du stock
+/**
+ * Classe de definition d'un produit du stock
+ */
 public class Produit {
 
-    // Les caracteristiques d'un Produit
-    private String reference;   // reference du produit
-    private String nom;         // nom du produit
-    private double prix;        // prix du produit
-    private int quantite;       // quantite du produit
+    private String reference;
+    private String nom;
+    private double prix;
+    private int quantite;
 
-    // Constructeur
+    /**
+     * @param reference reference du produit
+     * @param nom nom du produit
+     * @param prix prix du produit
+     * @param quantite quantite du produit
+     */
     public Produit(String reference, String nom, double prix, int quantite) {
         this.reference = reference;
         this.nom = nom;
@@ -49,9 +55,12 @@ public class Produit {
         this.quantite = quantite;
     }
 
-    // override de la methode toString de Object, affiche en String le produit
+    /**
+     * override de la methode toString de Object, affiche en String le produit
+     */
+    @Override
     public String toString() {
-        return String.format("%-15s %-50s %3.2f %3d", reference, nom, prix, quantite);
+        return String.format("%-15s %-55s %3.2f %3d", reference, nom, prix, quantite);
     }
 
 }

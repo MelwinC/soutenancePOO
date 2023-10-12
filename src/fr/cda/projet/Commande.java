@@ -2,7 +2,7 @@ package fr.cda.projet;
 import java.util.*;
 
 /**
- * Classe de definition d'une commande
+ * Classe de definition d'un bon de commande
  */
 public class Commande {
     /**
@@ -77,6 +77,9 @@ public class Commande {
         this.raison = raison;
     }
 
+    /**
+     * Surcharge de la methode toString, affichage conditionnel en fonction de l'etat de livraison et de la raison
+     */
     @Override
     public String toString() {
         return "Commande n°" + numero + '\n' + "Date: " + date + '\n' + "Client: " + client + '\n' + "References: " + references + '\n' + (etatLivraison ? "Livree" : (raison == null ? "Livrable" : "Non Livree" + '\n' +  "Raison : " + raison));

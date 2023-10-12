@@ -3,11 +3,17 @@ package fr.cda.projet;
 import fr.cda.ihm.*;
 import fr.cda.util.Log4j;
 
-// Classe de definition de l'IHM principale du compte
+/**
+ * Classe de definition de l'IHM principal
+ */
 public class GUISite implements FormulaireInt {
     private final Site site;  // Le site
 
-    // Constructeur
+    /**
+     * Constructeur de l'IHM principal
+     *
+     * @param site site courant envoye en parametre
+     */
     public GUISite(Site site) {
         this.site = site;
 
@@ -38,6 +44,9 @@ public class GUISite implements FormulaireInt {
         form.addLabel("Calcul des ventes des commandes livrees");
         form.addButton("CALCUL_VENTES", "Calculer ventes");
         form.addLabel("");
+        form.addLabel("Modifier l'etat du stock");
+        form.addButton("MODIFIER_STOCK", "Modifier le stock");
+        form.addLabel("");
         form.addLabel("Sauvegarde des produits et des commandes");
         form.addButton("SAUVEGARDER", "Sauvegarder");
         form.addLabel("");
@@ -54,7 +63,11 @@ public class GUISite implements FormulaireInt {
         form.afficher();
     }
 
-    // Methode appellee quand on clique dans un bouton
+    /**
+     * Methode appellee quand on clique dans un bouton
+     * @param form      Le formulaire dans lequel se trouve le bouton
+     * @param nomSubmit Le nom du bouton qui a été utilisé.
+     */
     public void submit(Formulaire form, String nomSubmit) {
 
         // Affichage de tous les produits du stock
@@ -76,26 +89,35 @@ public class GUISite implements FormulaireInt {
                 String res = site.listerCommande(num);
                 form.setValeurChamp("RESULTATS", res);
             } catch (NumberFormatException e) {
-                String res = "Veuillez entrer un numéro de commande.";
+                String res = "Veuillez entrer un numéro de commande";
                 form.setValeurChamp("RESULTATS", res);
-                Log4j.logger.info(e);
+                Log4j.logger.info(res + ", " + e);
             }
         }
 
         // appel de l'IHM de modification de commande
         if (nomSubmit.equals("MODIFIER")) {
             String numStr = form.getValeurChamp("NUM_COMMANDE");
+            String erreur;
             try {
                 int num = Integer.parseInt(numStr);
+                // on recupere la commande par son numero
                 Commande commande = site.trouverCommande(num);
+                // on verifie que le commande n'est pas livree
                 if (!commande.isEtatLivraison()) {
-                    GUIModifierCommande gui = new GUIModifierCommande(site, commande);
+                    // instanciation de l'ihm de modification de commande
+                    new GUIModifierCommande(site, commande);
                 } else {
                     form.setValeurChamp("RESULTATS", "Cette commande a deja ete livree, impossible de l'a modifier.");
                 }
-            } catch (NullPointerException | NumberFormatException e) {
-                form.setValeurChamp("RESULTATS", "Aucune commande n'a ete trouvee avec ce numero.");
-                Log4j.logger.info(e);
+            } catch (NumberFormatException e) {
+                erreur = "Veuillez entrer un numero de commande valide";
+                form.setValeurChamp("RESULTATS", erreur);
+                Log4j.logger.info(erreur + ", " + e);
+            } catch (NullPointerException e) {
+                erreur = "Aucune commande n'a ete trouvee avec ce numero";
+                form.setValeurChamp("RESULTATS", erreur);
+                Log4j.logger.info(erreur + ", " + e);
             }
         }
 
@@ -104,18 +126,30 @@ public class GUISite implements FormulaireInt {
             form.setValeurChamp("RESULTATS", site.commandesNonLivrees());
         }
 
-        // Livraison de la commande
+        // Livraison de toutes les commandes non livrees
         if (nomSubmit.equals("LIVRER")) {
+            String erreur;
             try {
                 String res = site.livrerToutesCommandes();
                 form.setValeurChamp("RESULTATS", res);
-            } catch (NullPointerException | NumberFormatException e) {
-                form.setValeurChamp("RESULTATS", "Aucune commande n'a ete trouvee avec ce numero.");
-                Log4j.logger.info(e);
+            } catch (NullPointerException e) {
+                erreur = "Aucune commande n'a ete trouvee avec ce numero";
+                form.setValeurChamp("RESULTATS", erreur);
+                Log4j.logger.info(erreur + ", " + e);
+            } catch (NumberFormatException e) {
+                erreur = "Veuillez entrer un numero de commande valide";
+                form.setValeurChamp("RESULTATS", erreur);
+                Log4j.logger.info(erreur + ", " + e);
             } catch (ArrayIndexOutOfBoundsException e) {
-                form.setValeurChamp("RESULTATS", "La commande ne possede pas de references.");
-                Log4j.logger.info(e);
+                erreur = "La commande ne possede pas de references";
+                form.setValeurChamp("RESULTATS", erreur);
+                Log4j.logger.info(erreur + ", " + e);
             }
+        }
+
+        // appel de l'IHM de modification de stock
+        if (nomSubmit.equals("MODIFIER_STOCK")) {
+            new GUIModifierStock(site);
         }
 
         // Calcul des ventes des commandes livrees
@@ -134,7 +168,5 @@ public class GUISite implements FormulaireInt {
             site.sauvegarder();
             form.fermer();
         }
-
     }
-
 }
