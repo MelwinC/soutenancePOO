@@ -12,14 +12,14 @@ import java.awt.Point;
 import java.util.Vector;
 
 /**
-  Classe d'implémentation d'un espace rectangulaire orthonormé de Tore
+  Classe d'implementation d'un espace rectangulaire orthonorme de Tore
 */
 public class Tore
 {
     private int nbX; // Taille en colonne (largeur) de l'espace
     private int nbY; // Taille en ligne (hauteur) de l'espace
     
-    /** Création d'un espace de Tore défini par sa longueur et sa hauteur
+    /** Creation d'un espace de Tore defini par sa longueur et sa hauteur
         @param width longueur (pixel)
         @param height largeur (pixel)
     */
@@ -106,14 +106,14 @@ public class Tore
     }
 
     /**
-     Cette methode consiste à déterminer le point le plus proche de A dans un espace de Tore parmi un ensemble de points ET dont la distance est superieur à une distance seuil.
+     Cette methode consiste a determiner le point le plus proche de A dans un espace de Tore parmi un ensemble de points ET dont la distance est superieur a une distance seuil.
      @param A coordonnees du point A
      @param points Ensemble des points
      @param distanceSeuil disnance seuil
      @return le point le plus proche<br>
      si il n'existe pas de tel point alors retourne null. Grace au seuil il ne sera pas pris en consideration. (Sauf si ce seuil est egal a 0).
      <br>
-     Remarque: A peut appartenir à l'ensemble des points.
+     Remarque: A peut appartenir a l'ensemble des points.
     */
     public Point lePlusProche(Point A,
                               Vector points,
@@ -181,13 +181,13 @@ public class Tore
     }
     
     /**
-       Calcule les nouvelles coordonnées d'un point en fonction de son déplacment d'une case dans une des 8 directions.<br>
+       Calcule les nouvelles coordonnees d'un point en fonction de son deplacment d'une case dans une des 8 directions.<br>
        Le calcul tient compte du Tore.
-       @param x coordonnée en x du point
-       @param y coordonnée en y du point
+       @param x coordonnee en x du point
+       @param y coordonnee en y du point
        @param sensX direction en X (-1, 0, +1)
        @param sensY direction en Y (-1, 0, +1)
-       @return les nouvelles coordonnées du point
+       @return les nouvelles coordonnees du point
     */
     public Point deplacer(int x,int y,int sensX,int sensY)
     {

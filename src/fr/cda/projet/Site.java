@@ -116,19 +116,23 @@ public class Site {
      * @param nomFichier nom du fichier produits.txt envoye en argument
      */
     private void initialiserStock(String nomFichier) {
-        String[] lignes = Terminal.lireFichierTexte(nomFichier);
-        assert lignes != null;
-        for (String ligne : lignes) {
-            // separe tous les champs du fichier texte delimites par les ;
-            String[] champs = ligne.split(";", 4);
-            String reference = champs[0];
-            String nom = champs[1];
-            double prix = Double.parseDouble(champs[2]);
-            int quantite = Integer.parseInt(champs[3]);
-            // creation d'un objet Produit avec les informations du fichier texte
-            Produit p = new Produit(reference, nom, prix, quantite);
-            // ajout de l'objet Produit dans le stock
-            stock.add(p);
+        try {
+            String[] lignes = Terminal.lireFichierTexte(nomFichier);
+            assert lignes != null;
+            for (String ligne : lignes) {
+                // separe tous les champs du fichier texte delimites par les ;
+                String[] champs = ligne.split(";", 4);
+                String reference = champs[0];
+                String nom = champs[1];
+                double prix = Double.parseDouble(champs[2]);
+                int quantite = Integer.parseInt(champs[3]);
+                // creation d'un objet Produit avec les informations du fichier texte
+                Produit p = new Produit(reference, nom, prix, quantite);
+                // ajout de l'objet Produit dans le stock
+                stock.add(p);
+            }
+        } catch (NumberFormatException e) {
+            Log4j.logger.info(e);
         }
     }
 
@@ -137,32 +141,36 @@ public class Site {
      * @param nomFichier nom du fichier commandes.txt envoye en argument
      */
     private void initialiserCommandes(String nomFichier) {
-        String[] lignes = Terminal.lireFichierTexte(nomFichier);
-        int numeroCourant;
-        int numeroPrecedent = -1;
-        // contient toutes les references d'un bon de commande
-        ArrayList<String> references = new ArrayList<>();
-        Commande c;
-        assert lignes != null;
-        for (String ligne : lignes) {
-            // separe tous les champs du fichier texte delimites par les ;
-            String[] champs = ligne.split(";", 4);
-            numeroCourant = Integer.parseInt(champs[0]);
-            String date = champs[1];
-            String nom = champs[2];
-            // on utilise un numero courant / precedent pour verifier si la prochaine ligne a toujours le meme numero de commande
-            // si ce n'est pas le cas
-            if (numeroCourant != numeroPrecedent) {
-                // on cree un nouvel arraylist de references (pour vider le precedent)
-                references = new ArrayList<>();
-                // on instancie l'objet Commande avec tous les parametres assignes precedemment
-                c = new Commande(numeroCourant, date, nom, references);
-                // et on ajoute l'objet Commande a l'arraylist commandes
-                commandes.add(c);
+        try {
+            String[] lignes = Terminal.lireFichierTexte(nomFichier);
+            int numeroCourant;
+            int numeroPrecedent = -1;
+            // contient toutes les references d'un bon de commande
+            ArrayList<String> references = new ArrayList<>();
+            Commande c;
+            assert lignes != null;
+            for (String ligne : lignes) {
+                // separe tous les champs du fichier texte delimites par les ;
+                String[] champs = ligne.split(";", 4);
+                numeroCourant = Integer.parseInt(champs[0]);
+                String date = champs[1];
+                String nom = champs[2];
+                // on utilise un numero courant / precedent pour verifier si la prochaine ligne a toujours le meme numero de commande
+                // si ce n'est pas le cas
+                if (numeroCourant != numeroPrecedent) {
+                    // on cree un nouvel arraylist de references (pour vider le precedent)
+                    references = new ArrayList<>();
+                    // on instancie l'objet Commande avec tous les parametres assignes precedemment
+                    c = new Commande(numeroCourant, date, nom, references);
+                    // et on ajoute l'objet Commande a l'arraylist commandes
+                    commandes.add(c);
+                }
+                references.add(champs[3]);
+                // on assigne le numeroCourant au numeroPrecedent pour le comparer a la prochaine boucle
+                numeroPrecedent = numeroCourant;
             }
-            references.add(champs[3]);
-            // on assigne le numeroCourant au numeroPrecedent pour le comparer a la prochaine boucle
-            numeroPrecedent = numeroCourant;
+        } catch (NumberFormatException e) {
+            Log4j.logger.info(e);
         }
     }
 
@@ -276,7 +284,7 @@ public class Site {
             }
             // la commande peut etre livree
             if (res.isEmpty()) {
-                for (String ref: commande.getReferences()) {
+                for (String ref : commande.getReferences()) {
                     String[] refSplit = ref.split("=");
                     String nomRef = refSplit[0];
                     int quantite = Integer.parseInt(refSplit[1]);

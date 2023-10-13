@@ -1,0 +1,10 @@
+2023-10-12 20:36:57.419 [AWT-EventQueue-0] INFO  fr.cda.util.Log4j - Veuillez entrer un numéro de commande, java.lang.NumberFormatException: For input string: "f"
+2023-10-12 20:36:57.490 [AWT-EventQueue-0] INFO  fr.cda.util.Log4j - Veuillez entrer un numero de commande valide, java.lang.NumberFormatException: For input string: "f"
+2023-10-12 20:40:53.309 [AWT-EventQueue-0] INFO  fr.cda.util.Log4j - Veuillez entrer un numero de commande valide, java.lang.NumberFormatException: For input string: "f"
+2023-10-12 20:40:53.697 [AWT-EventQueue-0] INFO  fr.cda.util.Log4j - Veuillez entrer un numero de commande valide, java.lang.NumberFormatException: For input string: "f"
+2023-10-13 10:56:00.926 [AWT-EventQueue-0] INFO  fr.cda.util.Log4j - Veuillez entrer un numéro de commande, java.lang.NumberFormatException: For input string: "f"
+2023-10-13 10:56:00.935 [AWT-EventQueue-0] INFO  fr.cda.util.Log4j - Veuillez entrer un numero de commande valide, java.lang.NumberFormatException: For input string: "f"
+2023-10-13 10:56:02.319 [AWT-EventQueue-0] INFO  fr.cda.util.Log4j - Veuillez entrer un numéro de commande, java.lang.NumberFormatException: For input string: "f"
+2023-10-13 11:38:29.262 [main] INFO  fr.cda.util.Log4j - java.lang.NumberFormatException: For input string: ""
+2023-10-13 11:38:48.480 [AWT-EventQueue-0] INFO  fr.cda.util.Log4j - Aucune commande n'a ete trouvee avec ce numero, java.lang.NullPointerException: Cannot invoke "fr.cda.projet.Commande.isEtatLivraison()" because "commande" is null
+2023-10-13 11:56:06.220 [AWT-EventQueue-0] INFO  fr.cda.util.Log4j - Veuillez entrer un num�ro de commande, java.lang.NumberFormatException: For input string: "f"

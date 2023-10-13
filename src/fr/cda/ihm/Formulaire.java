@@ -9,10 +9,10 @@ import java.util.*;
 
 
 /**
-   Classe de d�finition d'un formulaire JAVA permettant de faire � 
+   Classe de definition d'un formulaire JAVA permettant de faire a
    minima une IHM Java pour saisir des informations et faire des 
    actions via des boutons.<BR>
-   Pour cela, il faut que l'applicatif impl�mente les m�thodes de 
+   Pour cela, il faut que l'applicatif implemente les methodes de 
    l'interface FormulaireInt.<BR><BR>
 */
 public class Formulaire
@@ -40,17 +40,17 @@ public class Formulaire
     private static int tailleFonte  = 11;
     private static int heightText   = 20;
 
-    /*  Verrou de synchronisation pour �tre synchrone
+    /*  Verrou de synchronisation pour etre synchrone
        sur l'affichage d'un formulaire */
     private Integer verrou;
 
-    // Les �l�ments IHM du formulaire
+    // Les elements IHM du formulaire
     Hashtable<String,JComponent>  elements;
     
     /**
        Constructeur d'un formulaire.<br>
-       @param titre Titre affich� dans le bandeau de la fenetre
-       @param app Un objet dont la classe impl�mente l'interface FormualaireInt
+       @param titre Titre affiche dans le bandeau de la fenetre
+       @param app Un objet dont la classe implemente l'interface FormualaireInt
        @param width longueur du formulaire
        @param height hauteur du formulaire
     */
@@ -64,9 +64,9 @@ public class Formulaire
 
     /**
        Constructeur d'un formulaire.<br>
-       @param titre Titre affich� dans le bandeau de la fenetre
-       @param app Un objet dont la classe impl�mente l'interface FormualaireInt
-       @param synchrone l'ex�cution est synchrone si true
+       @param titre Titre affiche dans le bandeau de la fenetre
+       @param app Un objet dont la classe implemente l'interface FormualaireInt
+       @param synchrone l'execution est synchrone si true
        @param width longueur du formulaire
        @param height hauteur du formulaire
        @param avecFrame si false alors pas de frame cree : que le panel
@@ -125,8 +125,8 @@ public class Formulaire
         this.elements = new Hashtable<String,JComponent>();
     }
 
-    /** Initialise l'applicatif.<br>Cette m�thode est utilis�e dans le cas o� quand on cr�e le formulaire on ne connait pas encore l'applicatif qui g�re le formulaire. On appelle alors cette m�thode pour initialiser l'applicatif du formulaire.
-        @param app Un objet qui impl�mente l'interface Formulaireint */
+    /** Initialise l'applicatif.<br>Cette methode est utilisee dans le cas oe quand on cree le formulaire on ne connait pas encore l'applicatif qui gere le formulaire. On appelle alors cette methode pour initialiser l'applicatif du formulaire.
+        @param app Un objet qui implemente l'interface Formulaireint */
     public void setApp(FormulaireInt app)
     {
         this.app = app;
@@ -141,23 +141,23 @@ public class Formulaire
         return this.panelPP;
     }
 
-    /** Retourne la position courante en X de la position des �l�ments
+    /** Retourne la position courante en X de la position des elements
         @return int la valeur X */
     public int getXCour(){return xCour;}
 
-    /** Retourne la position courante en Y de la position des �l�ments
+    /** Retourne la position courante en Y de la position des elements
         @return int la valeur Y */
     public int getYCour(){return yCour;}
 
     /** Change la position courante 
      @param x position en abscisse (horizontal) de la fenetre 
-     @param y position en ordonn�e (vertical) de la fenetre 
+     @param y position en ordonnee (vertical) de la fenetre 
     */
     public void setPosition(int x,int y){xCour=x;yCour=y;}
 
     /** Change la position courante par delta
      @param deltax position en abscisse (horizontal) de la fenetre 
-     @param deltay position en ordonn�e (vertical) de la fenetre 
+     @param deltay position en ordonnee (vertical) de la fenetre 
     */
     public void addPosition(int deltax,int deltay)
     {
@@ -204,7 +204,7 @@ public class Formulaire
     public void setWidthTextCour(int width){widthTextCour=width;}
 
 
-    /** Change la largeur courante de s�paration entre le label et le texte des champs de saisi
+    /** Change la largeur courante de separation entre le label et le texte des champs de saisi
         @param width nouvelle largeur courante
      */
     public void setWidthGapCour(int width){widthGapCour=width;}
@@ -217,7 +217,7 @@ public class Formulaire
 
 
     /** Affichage du formulaire.<br>
-     Cette m�thode peut �tre synhrone (voir le parametre synhrone � la cr�ation du formulaire.
+     Cette methode peut etre synhrone (voir le parametre synhrone e la creation du formulaire.
     */
     public void afficher() throws FormulaireException
     {
@@ -253,8 +253,8 @@ public class Formulaire
 
 
     /** Ajout dans le formulaire un label.<br>
-        Valeur -1 implique prend la valeur pr�c�dente et comportement par d�faut de positionnement 
-        @param label Chaine qui pr�c�de la zone de saisie
+        Valeur -1 implique prend la valeur precedente et comportement par defaut de positionnement 
+        @param label Chaine qui precede la zone de saisie
     */
     public void addLabel(String label)
     {
@@ -290,11 +290,11 @@ public class Formulaire
     
 
 
-    /** Ajout dans le formulaire d'un texte de saisie compos� d'un label 
+    /** Ajout dans le formulaire d'un texte de saisie compose d'un label 
         et d'une zone de saisie.<br>
         @param nom Le nom du champ
-        @param label Chaine qui pr�c�de la zone de saisie
-        @param editable d�termine si la zone de saisie est �ditable 
+        @param label Chaine qui precede la zone de saisie
+        @param editable determine si la zone de saisie est editable 
         @param value valeur initiale dans la zone de saisie
     */
     public void addText(String nom,
@@ -342,11 +342,11 @@ public class Formulaire
         if (this.frame!=null) this.frame.repaint();
     }
 
-    /** Ajout dans le formulaire d'un texte de saisie compos� d'un label 
+    /** Ajout dans le formulaire d'un texte de saisie compose d'un label 
         et d'une zone de saisie.<br>
         @param nom Le nom du champ
-        @param label Chaine qui pr�c�de la zone de saisie
-        @param editable d�termine si la zone de saisie est �ditable 
+        @param label Chaine qui precede la zone de saisie
+        @param editable determine si la zone de saisie est editable 
         @param value valeur initiale dans la zone de saisie 
         @param width longueur de la zone de texte
         @param height hauteur de la zone de texte
@@ -397,8 +397,8 @@ public class Formulaire
     
     /** Ajout dans le formulaire d'une liste scrollable de valeurs.<br>
         @param nom Le nom de la liste scrollable
-        @param titre Titre qui pr�c�de la liste
-        @param editable d�termine si la zone de saisie est �ditable 
+        @param titre Titre qui precede la liste
+        @param editable determine si la zone de saisie est editable 
         @param values valeur initiale dans la zone de saisie 
         @param width longueur de la zone (ou -1)
         @param height hauteur de la zone 
@@ -515,7 +515,7 @@ public class Formulaire
         @param nbLigne nombre de ligne de la grille
         @param nbColonne nombre de colonne de la grille
         @param tailleCase taille de la case (en pixel)
-        @param controle objet dont la classe surcharge les m�thodes de l'interface ControlesCanvasIHM. Il permet de r�aliser les actions r�alis�es dans la grille.
+        @param controle objet dont la classe surcharge les methodes de l'interface ControlesCanvasIHM. Il permet de realiser les actions realisees dans la grille.
      */
     public CanvasIHM addGrilleIHM(int nbLigne,
                                   int nbColonne,
@@ -535,7 +535,7 @@ public class Formulaire
     /** Methode qui ajoute un canvas de grille
         @param width largeur du canvas
         @param height hauteur du canvas
-        @param controle objet dont la classe surcharge les m�thodes de l'interface ControlesCanvasIHM. Il permet de r�aliser les actions r�alis�es dans la grille.
+        @param controle objet dont la classe surcharge les methodes de l'interface ControlesCanvasIHM. Il permet de realiser les actions realisees dans la grille.
      */
     public CanvasIHM addCanvasIHM(int width,
                                   int height,
@@ -552,7 +552,7 @@ public class Formulaire
         return(grille);
     }
 
-    /** M�thode qui retourne la valeur d'un champ.
+    /** Methode qui retourne la valeur d'un champ.
         @param nom Le nom du champ
         @return valeur la nouvelle valeur du champ */
     public String getValeurChamp(String nom)
@@ -576,7 +576,7 @@ public class Formulaire
         return ret;
     }
 
-    /** M�thode qui change la valeur d'un champ.
+    /** Methode qui change la valeur d'un champ.
         @param nom Le nom du champ
         @param valeur la nouvelle valeur du champ */
     public void setValeurChamp(String nom,String valeur)
@@ -589,7 +589,7 @@ public class Formulaire
     }
 
 
-    /** M�thode qui change les valeurs d'une liste de scroll
+    /** Methode qui change les valeurs d'une liste de scroll
         @param nom Le nom du champ
         @param values la nouvelle liste de valeur */
     public void setListData(String nom,String[] values)
@@ -670,7 +670,7 @@ public class Formulaire
     }
 
     // ==========================================
-    /** M�thodes de saisie �l�mentaire d'un texte.<BR>
+    /** Methodes de saisie elementaire d'un texte.<BR>
         Ceci remplace la classe Terminal
         @param texteInvite Texte d'invite de saisi
     */
@@ -738,7 +738,7 @@ public class Formulaire
 
     /**
       Programme principal de test de la classe Formulaire.
-      Cette m�thode teste les m�thodes de classe.
+      Cette methode teste les methodes de classe.
     */
     public static void main (String... args) throws Exception
     {
@@ -754,7 +754,7 @@ public class Formulaire
         form.addText("val2","Valeur 2",true,"456");
         form.setWidthButtonCour(150);
         form.addButton("add","Additionner");
-        String[] values = { "la belle de nuit", "la fille de l'air","le gar�on manqu�","abcdefghijklmnopqrstuvwxyz","111","2222","3333"};
+        String[] values = { "la belle de nuit", "la fille de l'air","le gareon manque","abcdefghijklmnopqrstuvwxyz","111","2222","3333"};
         form.addListScroll("LIST","Zone ",true,values,200,100);
         form.addButton("SELECTION","SELECTION");
         form.setPosition(300,10);
@@ -771,7 +771,7 @@ public class Formulaire
         //System.out.println(str);
 
 
-        // Un autre exemple de formulaire pour montrer les possibilit�s de positionnement
+        // Un autre exemple de formulaire pour montrer les possibilites de positionnement
         //
         form = new Formulaire("TESTER",test1,false,1200,600,true);
         
@@ -812,9 +812,9 @@ public class Formulaire
 
 // ================================================================
 
-// Classe non inner-class car utilis�e dans une m�thode statique.
-// Cette classe est utilis� pour saisir une chaine dans une IHM
-//  et de mani�re synchrone
+// Classe non inner-class car utilisee dans une methode statique.
+// Cette classe est utilise pour saisir une chaine dans une IHM
+//  et de maniere synchrone
 //
 class SaisieString implements FormulaireInt
 {
